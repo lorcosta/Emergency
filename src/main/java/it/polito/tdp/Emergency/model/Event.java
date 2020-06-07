@@ -10,7 +10,8 @@ public class Event implements Comparable<Event>{
 		FREE_STUDIO,//si libera uno studio e chiamo un paziente
 		TREATED,//paziente trattato e dimesso
 		TIMEOUT,//attesa eccessiva in sala d'aspetto
-		TIC, //evento periodico per verificare se ci sono studi vuoti
+		TIC,//evento periodico per verificare se ci sono studi vuoti
+		OUT,
 	}
 	
 	private LocalTime time;

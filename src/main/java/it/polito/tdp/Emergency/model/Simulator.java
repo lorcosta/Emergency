@@ -38,7 +38,7 @@ public class Simulator {
 	//STATO DEL SISTEMA
 	private List<Paziente> pazienti;
 	private PriorityQueue<Paziente> attesa;//solo i pazienti post-triage, prima di essere chiamati
-	private CodiceColore ultimoColoreAssegnato=CodiceColore.WHITE;
+	private CodiceColore ultimoColoreAssegnato;
 	private int studiLiberi;
 	
 	//CODA DEGLI EVENTI 
@@ -67,7 +67,8 @@ public class Simulator {
 			nPaz++;
 			oraArrivo=oraArrivo.plus(T_ARRIVAL);
 		}
-		
+		//genero tic iniziale
+		this.coda.add(new Event(this.oraInizio,EventType.TIC,null));
 	}
 
 	//ESECUZIONE
@@ -79,7 +80,7 @@ public class Simulator {
 	}
 	
 	private void processEvent(Event e) {
-		 Paziente paz=e.getPaziente();
+		Paziente paz=e.getPaziente();
 		switch(e.getType()) {
 		case ARRIVAL:
 			//arriva un paziente, tra 5 minuti sarà finito il triage
@@ -94,7 +95,7 @@ public class Simulator {
 			//schedula timeout
 			if(paz.getColore()==CodiceColore.WHITE) {
 				coda.add(new Event(e.getTime().plus(TIMEOUT_WHITE),EventType.TIMEOUT,paz));
-			}else if(paz.getColore()==CodiceColore.YELLOW	) {
+			}else if(paz.getColore()==CodiceColore.YELLOW) {
 				coda.add(new Event(e.getTime().plus(TIMEOUT_YELLOW),EventType.TIMEOUT,paz));
 			}else if(paz.getColore()==CodiceColore.RED) {
 				coda.add(new Event(e.getTime().plus(TIMEOUT_RED),EventType.TIMEOUT,paz));
